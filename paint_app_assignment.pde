@@ -1,9 +1,35 @@
 PImage mang;
 boolean mangOn;
+color red = #FFADAD;
+color orange = #FFD6A5;
+color yellow = #FDFFB6;
+color green = #CAFFBF;
+color cyan = #9BF6FF;
+color blue = #A0C4FF;
+color purp = #BDB2FF;
+int percent;
+
+color redorange = lerpColor(red, orange, .50);
+color orangeyellow = lerpColor(orange, yellow, .50);
+color yellowgreen = lerpColor(yellow, green, .50);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void setup() {
   size(1000,1000);
   background(255);
+  percent = 0;
   //strokeWeight(5);
   mang = loadImage("mango.png");
   mangOn = false;
