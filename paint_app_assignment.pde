@@ -1,5 +1,7 @@
 PImage mang;
+PImage pom;
 PFont retro;
+boolean pomOn;
 boolean mangOn;
 color red = #FFADAD;
 color orange = #FFD6A5;
@@ -16,6 +18,8 @@ float sliderX;
 float sliderY;
 int change;
 float size;
+float size2;
+float offset;
 float sizestroke;
 
 float advanselect;
@@ -33,12 +37,16 @@ void setup() {
   background(255);
   //strokeWeight(5);
   mang = loadImage("mango.png");
+  pom = loadImage("pomlo.png");
+  pomOn = false;
   mangOn = false;
   sliderX = 300;
   sliderY = 300;
   change = 0;
   change2 = 0;
+  offset = 10;
   size = 5;
+  size2 = 100;
   retro = createFont("Eight-Bit Madness.ttf", 45);
 }
 
@@ -55,6 +63,11 @@ void draw() {
   strokeWeight(3);
   rect(860, 0, 130, 150);
   image(mang, 850, 0, 150, 150);
+  
+  tactile(730, 0, 130, 150);
+  strokeWeight(3);
+  rect(730, 0, 130, 150);
+  image(pom, 730, 6, 125,130);
   
 //left buttons
   fill(255);
@@ -125,7 +138,8 @@ void draw() {
   circle(50, sliderY, 20);
   circle(50, 50, size);
   size = map(sliderY, 130,330, 50, 0);
-  
+  size2 = map(sliderY, 130,330, 100,30);
+  offset = map(sliderY, 130,330, 50,10);
   
 
 
@@ -203,7 +217,8 @@ void tactile (int x) {
 //save and load functions
 void saveImage(File f) {
   if (f != null) {
-    PImage canvas = get( 71, 1, width-71, height-1);
+    //PImage canvas = get( 71, 1, width-71, height-1);
+    PImage canvas = get(100,0, 900,750);
     canvas.save(f.getAbsolutePath());
   }
 }
@@ -234,7 +249,7 @@ void mousePressed() {
   
   //loud button
   if (mouseX > 20 && mouseX < 80 && mouseY > 940 && mouseY < 970) {
-    selectOutput("Pick an image to load", "openImage");
+    selectInput("Pick an image to load", "openImage");
   }
 
 
@@ -289,6 +304,7 @@ void mousePressed() {
   if (mouseX > 850 && mouseX < 1000 && mouseY > 0 && mouseY < 150) {
     mangOn = !mangOn;
   }
+  if (mouseX
 }
 
 
@@ -301,7 +317,16 @@ void mouseDragged() {
       line(pmouseX, pmouseY, mouseX, mouseY);
     }
   } else {
-    image(mang, mouseX - 50, mouseY - 50, 100, 100);
+    if (mouseY < 750 && mouseX > 100) {
+      image(mang, mouseX - offset, mouseY - offset, size2, size2);
+    }
+  }
+
+  
+  if (pomOn == true) {
+    if (mouseY < 750 && mouseX > 100) {
+      image(pom, mouseX - offset, mouseY - offset, size2, size2);
+    }
   }
 }
 
@@ -321,6 +346,13 @@ void showOnOff() {
     stroke(255, 0, 0);
     strokeWeight(5);
   } else {
+    stroke(0);
+    strokeWeight(1);
+  }
+  if (pomOn == true) {
+    stroke(255, 0,0);
+    strokeWeight(5);
+  } else { 
     stroke(0);
     strokeWeight(1);
   }
