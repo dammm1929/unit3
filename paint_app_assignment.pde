@@ -12,6 +12,7 @@ color blue = #A0C4FF;
 color purp = #BDB2FF;
 color selected;
 int change2;
+int stamptact;
 
 float shade;
 float sliderX;
@@ -48,6 +49,7 @@ void setup() {
   size = 5;
   size2 = 100;
   retro = createFont("Eight-Bit Madness.ttf", 45);
+  stamptact = 255;
 }
 
 void draw() {
@@ -58,38 +60,51 @@ void draw() {
   rect(0, 0, 100, 1000);
 
 
- //stamp tactality
-  tactile(860, 0, 130, 150);
+  //stamp tactality
+  
+  if (mangOn == true) {
+    fill(220);
+  } else {
+    fill(255);
+  }
+  
+  tactile2(860, 0, 130, 150);
   strokeWeight(3);
   rect(860, 0, 130, 150);
   image(mang, 850, 0, 150, 150);
   
-  tactile(730, 0, 130, 150);
+  if (pomOn == true) {
+    fill(220);
+  } else {
+    fill(255);
+  }
+  
+  tactile2(730, 0, 130, 150);
   strokeWeight(3);
   rect(730, 0, 130, 150);
-  image(pom, 730, 6, 125,130);
-  
-//left buttons
+  image(pom, 730, 6, 125, 130);
+
+  //left buttons
   fill(255);
   textFont(retro);
   fill(0);
   textSize(23);
-  
-  tactile(20,840, 60,30);
-  rect(20,840, 60,30);
-  
-  tactile(20,890, 60,30);
-  rect(20,890,60,30);
-  
-  tactile(20,940, 60,30);
-  rect(20,940,60,30);
+
+  tactile(20, 840, 60, 30);
+  rect(20, 840, 60, 30);
+
+  tactile(20, 890, 60, 30);
+  rect(20, 890, 60, 30);
+
+  tactile(20, 940, 60, 30);
+  rect(20, 940, 60, 30);
 
   fill(0);
   text("Clear", 25, 860);
   text("Save", 27, 910);
   text("Load", 27, 960);
-  
-  
+
+
   //colour slider
   stroke(#000000);
   line(150, 950, 850, 950);
@@ -131,16 +146,16 @@ void draw() {
   }
   bluepurp = lerpColor(blue, purp, advanselect);
 
-//width slider
+  //width slider
   stroke(#000000);
   line(50, 130, 50, 330);
   fill(0);
   circle(50, sliderY, 20);
   circle(50, 50, size);
-  size = map(sliderY, 130,330, 50, 0);
-  size2 = map(sliderY, 130,330, 100,30);
-  offset = map(sliderY, 130,330, 50,10);
-  
+  size = map(sliderY, 130, 330, 50, 0);
+  size2 = map(sliderY, 130, 330, 100, 30);
+  offset = map(sliderY, 130, 330, 50, 10);
+
 
 
   //color buttons
@@ -206,9 +221,6 @@ void mouseReleased() {
 void tactile (int x) {
   if (mouseY > 850 && mouseY < 900 && mouseX > x && mouseX < x + 100) {
     stroke(#000000);
-  //}
-  //if (mouseX > 840 && mouseX < 870 && mouseY > y && mouseY < x + 60) {
-  //  stroke(0);
   } else {
     noStroke();
   }
@@ -218,35 +230,35 @@ void tactile (int x) {
 void saveImage(File f) {
   if (f != null) {
     //PImage canvas = get( 71, 1, width-71, height-1);
-    PImage canvas = get(100,0, 900,750);
+    PImage canvas = get(100, 0, 900, 750);
     canvas.save(f.getAbsolutePath());
   }
 }
-  
+
 void openImage(File f) {
   if (f != null) {
     int n = 0;
     while (n < 10) {
       PImage pic = loadImage(f.getPath());
-      image(pic, 0,0);
+      image(pic, 100, 0);
       n += 1;
     }
   }
 }
-  
+
 void mousePressed() {
   //clear button
   if (mouseX > 20 && mouseX < 80 && mouseY > 840 && mouseY < 870) {
     fill(255);
     noStroke();
-    rect(100,0, 900,750);
+    rect(100, 0, 900, 750);
   }
-  
+
   //save button
   if (mouseX > 20 && mouseX < 80 && mouseY > 890 && mouseY < 920) {
     selectOutput("Choose a name for your new image file", "saveImage");
   }
-  
+
   //loud button
   if (mouseX > 20 && mouseX < 80 && mouseY > 940 && mouseY < 970) {
     selectInput("Pick an image to load", "openImage");
@@ -257,7 +269,7 @@ void mousePressed() {
   if (mouseX > 150 && mouseX < 850 && mouseY > 937.5 && mouseY < 967.5) {
     change = 1;
   }
-  
+
   if (mouseX > 35 && mouseX < 65 && mouseY > 130 && mouseY < 330) {
     change2 = 1;
   }
@@ -301,32 +313,39 @@ void mousePressed() {
 
 
   //mango sticker
-  if (mouseX > 850 && mouseX < 1000 && mouseY > 0 && mouseY < 150) {
+  if (mouseX > 860 && mouseX < 1000 && mouseY > 0 && mouseY < 150) {
     mangOn = !mangOn;
+    stamptact = 230;
+    pomOn = false;
+    
   }
-  if (mouseX
+  if (mouseX > 730 && mouseX < 860 && mouseY > 0 && mouseY < 150) {
+    pomOn = !pomOn;
+    mangOn = false;
+  }
 }
 
 
 
 void mouseDragged() {
-  if (mangOn == false) {
+  if (mangOn == false && pomOn == false) {
     strokeWeight(size);
     stroke(selected);
     if (mouseY < 750 && mouseX > 100) {
       line(pmouseX, pmouseY, mouseX, mouseY);
     }
-  } else {
+  }
+  
+  if (mangOn == true) {
     if (mouseY < 750 && mouseX > 100) {
       image(mang, mouseX - offset, mouseY - offset, size2, size2);
     }
   }
-
-  
+    
   if (pomOn == true) {
     if (mouseY < 750 && mouseX > 100) {
       image(pom, mouseX - offset, mouseY - offset, size2, size2);
-    }
+      }
   }
 }
 
@@ -334,9 +353,15 @@ void mouseDragged() {
 
 void tactile(int x, int y, int w, int h) {
   if (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h) {
-    fill(#D3D3D3);
+    fill(211,211,211);
   } else {
     fill(255);
+  }
+}
+
+void tactile2(int x, int y, int w, int h) {
+  if (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h) {
+    fill(200,200,200);
   }
 }
 
@@ -350,9 +375,9 @@ void showOnOff() {
     strokeWeight(1);
   }
   if (pomOn == true) {
-    stroke(255, 0,0);
+    stroke(255, 0, 0);
     strokeWeight(5);
-  } else { 
+  } else {
     stroke(0);
     strokeWeight(1);
   }
