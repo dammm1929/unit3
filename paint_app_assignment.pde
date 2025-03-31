@@ -90,19 +90,19 @@ void draw() {
   fill(0);
   textSize(23);
 
-  tactile(20, 840, 60, 30);
-  rect(20, 840, 60, 30);
+  tactile(50, 770, 30);
+  circle(50, 770,60);
 
-  tactile(20, 890, 60, 30);
-  rect(20, 890, 60, 30);
+  tactile(50, 845, 30);
+  circle(50, 845, 60);
 
-  tactile(20, 940, 60, 30);
-  rect(20, 940, 60, 30);
+  tactile(50, 920, 30);
+  circle(50, 920, 60);
 
   fill(0);
-  text("Clear", 25, 860);
-  text("Save", 27, 910);
-  text("Load", 27, 960);
+  text("Clear", 25, 775);
+  text("Save", 27, 850);
+  text("Load", 27, 925);
 
 
   //colour slider
@@ -246,21 +246,36 @@ void openImage(File f) {
   }
 }
 
+  //tactile(50, 770, 60);
+  //circle(50, 770,60);
+
+  //tactile(50, 845, 60);
+  //circle(50, 845, 60);
+
+  //tactile(50, 920, 60);
+  //circle(50, 920, 60);
+
+  //fill(0);
+  //text("Clear", 25, 775);
+  //text("Save", 27, 850);
+  //text("Load", 27, 925);
+
+
 void mousePressed() {
   //clear button
-  if (mouseX > 20 && mouseX < 80 && mouseY > 840 && mouseY < 870) {
+  if (dist(50, 770, mouseX, mouseY) < 30) {
     fill(255);
     noStroke();
     rect(100, 0, 900, 750);
   }
 
   //save button
-  if (mouseX > 20 && mouseX < 80 && mouseY > 890 && mouseY < 920) {
+  if (dist(50, 845, mouseX, mouseY) < 30) {
     selectOutput("Choose a name for your new image file", "saveImage");
   }
 
   //loud button
-  if (mouseX > 20 && mouseX < 80 && mouseY > 940 && mouseY < 970) {
+  if (dist(50, 920, mouseX, mouseY) < 30) {
     selectInput("Pick an image to load", "openImage");
   }
 
@@ -349,7 +364,13 @@ void mouseDragged() {
   }
 }
 
-
+void tactile (int x, int y, int r) {
+  if (dist(x, y, mouseX, mouseY) < r) {
+    fill(211,211,211);
+  } else {
+    fill(255);
+  }
+}
 
 void tactile(int x, int y, int w, int h) {
   if (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h) {
